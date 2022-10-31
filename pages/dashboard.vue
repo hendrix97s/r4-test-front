@@ -1,14 +1,11 @@
 <template>
-  <Tutorial/>
+  <Menu></Menu>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-
+import Menu from '~/components/Menu.vue'
 export default Vue.extend({
-  name: 'IndexPage',
-  mounted() {
-  //  redirect to login
-  }
+  name: 'DashboardPage'
 })
 </script>

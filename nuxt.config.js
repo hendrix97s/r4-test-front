@@ -33,13 +33,46 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    ['@nuxtjs/dotenv', { filename: '.env' }]
   ],
+
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
-
+  auth:{
+    strategies: {
+      'laravelSanctum': {
+        provider: 'laravel/sanctum',
+        url: process.env.BASE_URL_API,
+        endpoints: {
+          login: { 
+            url: process.env.LOGIN, 
+            method: 'post'
+          },
+          logout: {
+            url: process.env.LOGOUT,
+            method: 'get'
+          }
+        }
+      }
+    }
+  },
+  axios: {
+    credentials: true, // this error -  changed it from Credential
+    baseURL: process.env.BASE_URL_API,
+  }, 
+  router:{
+    middleware: ['auth'],
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend (config, { isDev, isClient }) {
+      config.node = {
+        fs: 'empty'
+      }
+    }
   }
 }
