@@ -43,6 +43,7 @@ export default {
     '@nuxtjs/auth-next',
   ],
   auth:{
+    vuex: false,
     strategies: {
       'laravelSanctum': {
         provider: 'laravel/sanctum',
