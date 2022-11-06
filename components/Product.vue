@@ -71,16 +71,24 @@ export default {
   name: 'Products',
   data() {
     return {
-      products: []
+      products: [],
     }
   },
   mounted() {
+    if(!this.$store.getters['token']) {
+      this.$router.push('/login')
+    }    
+
     this.getProducts()
   },
   methods: {
     async getProducts() {
       this.products = await this.$axios
-        .get('api/product')
+        .get('api/product', {
+          headers: {
+            'R4-Token': this.$store.getters['token']
+          }
+        })
         .then(function (response) {
           return response.data
         })
@@ -92,7 +100,11 @@ export default {
     async deleteProduct(uuid) {
       let route = process.env.PRODUCT_DELETE.replace(':uuid', uuid)
       await this.$axios
-        .delete(route)
+        .delete(route, {
+          headers: {
+            'R4-Token': this.$store.getters['token']
+          }
+        })
         .then(function (response) {
           window.location.reload()
         })

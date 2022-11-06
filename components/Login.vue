@@ -57,6 +57,7 @@
 
 <script>
 require('dotenv').config()
+import { mapMutations } from 'vuex'
 export default {
   name: 'Login',
   data(){
@@ -69,23 +70,22 @@ export default {
     }
   },
   mounted(){
-    if(this.$auth.loggedIn){
+    if(localStorage.getItem('r4-token')){
       this.$router.push('/dashboard')
-    }
-    // console.log(process.env.BASE_URL_API)
+    }      
   },
   methods: {
     async userLogin(){
-      await this.$auth.loginWith('laravelSanctum', {
+      const response = await this.$auth.loginWith('local', {
         data: this.login
-      }).then(() => {
-        this.$router.push('/dashboard')
       }).catch((error) => {
         console.log(error)
-        // this.message = error.response.data.message
       })
 
-      this.$router.push('/dashboard')
+      if(response){
+        this.$store.commit('setUser', response.data.user)
+        this.$router.push('/dashboard')
+      }
     }
   }
 }

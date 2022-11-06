@@ -44,9 +44,10 @@ export default {
   ],
   auth:{
     vuex: false,
+
     strategies: {
-      'laravelSanctum': {
-        provider: 'laravel/sanctum',
+      
+      local: {
         url: process.env.BASE_URL_API,
         endpoints: {
           login: { 
@@ -66,7 +67,7 @@ export default {
     baseURL: process.env.BASE_URL_API,
   }, 
   router:{
-    middleware: ['auth'],
+    // middleware: ['validate-token'],
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

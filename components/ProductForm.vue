@@ -54,11 +54,18 @@ export default {
     }
   },
   mounted(){
+    if(!this.$store.getters['token']) {
+      this.$router.push('/login')
+    }    
     this.getCategories()
   },
   methods: {
     getCategories(){
-      this.$axios.get(process.env.CATEGORIES_INDEX)
+      this.$axios.get(process.env.CATEGORIES_INDEX, {
+          headers: {
+            'R4-Token': this.$store.getters['token']
+          }
+        })
       .then(response => {
         this.categories = response.data
       })
@@ -80,7 +87,8 @@ export default {
       
       await this.$axios.post(process.env.PRODUCT_STORE, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'R4-Token': this.$store.getters['token'],
+          'Content-Type': 'multipart/form-data',
         }
       })
       .then(response => {
@@ -103,7 +111,8 @@ export default {
       await this.$axios.post(route, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'accept': 'application/json'
+          'accept': 'application/json',
+          'R4-Token': this.$store.getters['token']
         }
       })
       .then(response => {
