@@ -62,10 +62,10 @@ export default {
   methods: {
     getCategories(){
       this.$axios.get(process.env.CATEGORIES_INDEX, {
-          headers: {
-            'R4-Token': this.$store.getters['token']
-          }
-        })
+        headers: {
+          'R4-Token': this.$store.getters['token'],
+        }
+      })
       .then(response => {
         this.categories = response.data
       })
