@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     getCategories(){
-      this.$axios.get(process.env.CATEGORIES_INDEX, {
+      this.$axios.get('/api/categories', {
         headers: {
           'R4-Token': this.$store.getters['token'],
         }
@@ -85,7 +85,7 @@ export default {
       formData.append('name', this.name);
       formData.append('category_uuid', this.category);
       
-      await this.$axios.post(process.env.PRODUCT_STORE, formData, {
+      await this.$axios.post('/api/product', formData, {
         headers: {
           'R4-Token': this.$store.getters['token'],
           'Content-Type': 'multipart/form-data',
@@ -106,9 +106,7 @@ export default {
       data.append('category_uuid', this.category);
       data.append('_method', 'PATCH');
 
-      let route = process.env.PRODUCT_UPDATE.replace(':uuid', this.$route.query.uuid)
-
-      await this.$axios.post(route, data, {
+      await this.$axios.post('/api/product/'+this.$route.query.uuid, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'accept': 'application/json',

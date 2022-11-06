@@ -98,9 +98,8 @@ export default {
     },
 
     async deleteProduct(uuid) {
-      let route = process.env.PRODUCT_DELETE.replace(':uuid', uuid)
       await this.$axios
-        .delete(route, {
+        .delete('/api/product/'+uuid, {
           headers: {
             'R4-Token': this.$store.getters['token']
           }
